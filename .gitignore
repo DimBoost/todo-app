@@ -2,6 +2,7 @@
 *.db
 
 # User Secrets oder vertrauliche Configs
+appsettings.json
 appsettings.Development.json
 appsettings.Local.json
 
@@ -14,4 +15,7 @@ obj/
 *.user
 *.suo
 *.cache
+*.log
+
+TestResults/
 *.log
