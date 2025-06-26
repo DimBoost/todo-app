@@ -1,0 +1,33 @@
+﻿@page "{id:int}"
+@model ToDoApp.Pages.Todos.EditModel
+@{
+    ViewData["Title"] = "Todo bearbeiten";
+}
+
+<h2>Todo bearbeiten</h2>
+
+<form  method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Todo.Id" />
+
+    <div class="form-group">
+        <label asp-for="Todo.Title"></label>
+        <input asp-for="Todo.Title" class="form-control" />
+        <span asp-validation-for="Todo.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Todo.Description"></label>
+        <textarea asp-for="Todo.Description" class="form-control"></textarea>
+        <span asp-validation-for="Todo.Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+    <a asp-page="Index" class="btn btn-secondary">Abbrechen</a>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

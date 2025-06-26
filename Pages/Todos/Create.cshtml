@@ -1,0 +1,27 @@
+﻿@page
+@model ToDoApp.Pages.Todos.CreateModel
+@{
+}
+
+<h2>Neues Todo erstellen</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Todo.Title"></label>
+        <input asp-for="Todo.Title" class="form-control" />
+        <span asp-validation-for="Todo.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Todo.Description"></label>
+        <textarea asp-for="Todo.Description" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Erstellen</button>
+
+</form>
+<a asp-page="/Todos">Zurück zur Liste</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

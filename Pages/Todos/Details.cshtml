@@ -1,0 +1,28 @@
+﻿@page
+@model ToDoApp.Pages.Todos.DetailsModel
+@{
+    ViewData["Title"] = "Todo Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Titel</dt>
+        <dd class="col-sm-10">@Model.Todo.Title</dd>
+
+        <dt class="col-sm-2">Beschreibung</dt>
+        <dd class="col-sm-10">@Model.Todo.Description</dd>
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">
+
+            @(Model.Todo.IsCompleted ? "Erledigt" : "Offen")
+        </dd>
+
+        <dt class="col-sm-2">Erstellt am</dt>
+        <dd class="col-sm-10">@Model.Todo.CreatedAt.ToString("dd.MM.yyyy")</dd>
+    </dl>
+</div>
+

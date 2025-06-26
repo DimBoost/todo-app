@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    @{
+    }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ToDoApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ToDoApp.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+
+<body>
+    @*Toast Container*@
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+        <div id="toastMessage" class="toast text-white bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastContent">Standartmeldung</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">ToDoApp</a>
+                <div class="col navbar-collapse">
+                    <ul class="navbar-nav ms-auto"> 
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link "> Hallo @User.FindFirst("FirstName")?.Value</span>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="form-inline">
+                                    <button type="submit" class="btn btn-primary btn-sm">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <form method="post" asp-area="Identity" asp-page="/Account/Login" class="form-inline">
+                                    <button type="submit" class="btn btn-primary btn-sm">Login</button>
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-area="Identity" asp-page="/Account/Register" class="form-inline">
+                                    <button type="submit" class="btn btn-primary btn-sm">Register</button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div>
+        </div>
+    </header>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="d-flex">
+            @await Component.InvokeAsync("Sidebar")
+
+            <div class="flex-grow-1 p-3">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    }
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - ToDoApp - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

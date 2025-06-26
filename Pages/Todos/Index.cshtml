@@ -1,0 +1,186 @@
+﻿@page
+@model ToDoApp.Pages.Todos.TodosModel
+@{
+    ViewData["Title"] = "Meine Todos";
+    // Sorting 
+    var currentSort = HttpContext.Request.Query["sortOrder"];
+    string nextTitleSort = currentSort == "title_asc" ? "title_desc" : "title_asc";
+    string nextDescriptionSort = currentSort == "descript_asc" ? "descript_desc" : "descript_asc";
+    string nextDateSort = currentSort == "date_asc" ? "date_desc" : "date_asc";
+    string nextStatusSort = currentSort == "status_asc" ? "status_desc" : "status_asc";
+    //admin
+    var isAdmin = User.IsInRole("Admin");
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["ToastMessage"] != null)
+{
+    <script>
+        window.addEventListener("DOMContentLoaded",() =>{
+             window.showToast("@TempData["ToastMessage"]", @(TempData["IsError"]?.ToString().ToLower() ?? "false"));
+        });
+    </script>
+}
+
+<div class="mb-3">
+    <a asp-page="./Index" class="btn btn-outline-secondary">Alle anzeigen</a>
+    <a asp-page="./Index" asp-route-filter="open" class="btn btn-outline-primary">Nur offene anzeigen</a>
+</div>
+
+@if (Model.Todos.Count == 0)
+{
+    <p>Du hast noch keine Todos.</p>
+}
+<form method="get" class="mb-3">
+    <div class="input-group mb-2">
+        @if (User.IsInRole("Admin"))
+        {
+            <input type="text" name="AdminUserQuery" value="@Model.AdminUserQuery" class="form-control" placeholder="Benutzername oder E-Mail" />
+        }
+    </div>
+    <div class="input-group mb-2">
+        <input type="text" name="searchQuery" value="@Model.SearchQuery" class="form-control" placeholder="Suchbegriff" />
+    </div>
+    <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
+    <input type="hidden" name="pageNumber" value="1" /> @* WICHTIG: immer auf Seite 1 zurück *@
+
+    <button type="submit" class="btn btn-primary">Suchen</button>
+</form>
+
+@if(Model.Todos.Count > 0)
+{
+        <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@nextTitleSort">Titel</a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@nextDescriptionSort">Beschreibung</a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@nextDateSort">Erstellt</a> 
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@nextStatusSort">Status</a>
+                </th>
+                <th>
+                    Details
+                </th>
+                <th>
+                    Aktion
+                </th>
+                <th>
+                    <a asp-page="./Index" class="btn">🔄Liste Aktualisieren</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var todo in Model.Todos)
+            {
+                <tr class="@(todo.IsCompleted ? "table-secondary text-muted" : "")">
+                    <td>
+                        @if (todo.IsCompleted)
+                        {
+                            <span class="me-1 text-success">✔️</span>
+                        }
+                        @if (!todo.IsCompleted)
+                        {
+                            <span class="me-1 text-danger">✘</span>
+                        }
+
+                        <span class="@(todo.IsCompleted ? "text-decoration-line-through" : "")">@todo.Title </span>
+                    </td>
+                    <td class="@(todo.IsCompleted ? "text-decoration-line-through" : "")">@todo.Description</td>
+                    <td class="@(todo.IsCompleted ? "text-decoration-line-through" : "")">@todo.CreatedAt.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <form method="post" asp-page-handler="ToggleComplete" asp-route-id="@todo.Id">
+                            <input type="hidden" name="PageNumber" value="@Model.PageNumber" />
+                            <input type="checkbox" onchange="this.form.submit()" @(todo.IsCompleted ? "checked" : "") />
+                        </form>
+                    </td>
+                    @* Details Info zur einzelnen Tabellen Spalten *@
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@todo.Id">Details</a>
+                    </td>
+                        @*  Delete with paging *@
+
+                        <td>
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@todo.Id" ;">
+                                <input type="hidden" name="PageNumber" value="@Model.PageNumber" />
+                                <button type="submit" class="btn btn-sm ">🗑 Löschen</button>
+                            </form>
+                        </td>
+                     
+                   <td>          
+                        <a asp-page="Edit" asp-route-id="@todo.Id" class="btn btn-sm btn-outline-secondary">✏️ Bearbeiten</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <nav>
+        @* Seiten Paging *@
+        <ul class="pagination">
+            @for (int i = 1; i <= (int)Math.Ceiling((double)Model.TotalTodosCount / Model.PageSize); i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                        asp-page="./Index"
+                        asp-route-adminUserQuery="@Model.AdminUserQuery"
+                        asp-route-searchQuery="@Model.SearchQuery"
+                        asp-route-filter="@ViewData["CurrentFilter"]"
+                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                        asp-route-pageNumber="@i">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+@section Scripts {
+    <script>
+        window.showToast = function (message, isError = false) {
+            const toastElement = document.getElementById('toastMessage');
+            const toastBody = document.getElementById('toastContent');
+
+            toastBody.textContent = message;
+            toastElement.classList.remove('bg-success', 'bg-danger');
+            toastElement.classList.add(isError ? 'bg-danger' : 'bg-success');
+
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        };
+        // Direkt beim Laden prüfen:
+        @if (TempData["ToastMessage"] != null)
+        {
+                    var message = @Html.Raw(Json.Serialize(TempData["ToastMessage"]));
+                    var isError = @Html.Raw(Json.Serialize(TempData["IsError"] ?? false));
+                <text>
+                    window.addEventListener("DOMContentLoaded", function () {
+                        window.showToast(@message, @isError);
+                    });
+                </text>
+        }
+    </script>
+}
+
+<style>
+    th a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    th a:hover {
+        text-decoration: underline;
+    }
+
+     select.form-select {
+        width:     auto !important;
+        max-width: 175px !important;
+        min-width: 120px !important;
+    } 
+</style>

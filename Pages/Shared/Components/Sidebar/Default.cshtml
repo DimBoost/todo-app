@@ -1,0 +1,27 @@
+﻿
+<nav class="bg-light p-3 sidebar">
+    <h5>Navigation</h5>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <vc:todo-sidebar></vc:todo-sidebar>
+    }
+
+    <ul class="nav flex-column">
+        @if (!User.IsInRole("Admin")) {
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Todos/Index">Alle Todos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Todos/Create">Neue Todo</a>
+            </li>
+        }
+    </ul>
+    <ul>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Todos/Index" asp-route-adminUserQuery="">Admin Bereich</a>
+            </li>
+        }
+    </ul>
+</nav>
