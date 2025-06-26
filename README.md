@@ -44,16 +44,17 @@ Es ist mein erstes umgesetztes Projekt in ASP.NET Core
 
 ## 📂 Projektstruktur
 
-| Ordner / Datei                        | Beschreibung                                                 |
+| Ordner / Datei                        | Beschreibung                                                |
 |---------------------------------------|-------------------------------------------------------------|
-| `/Pages/`                             | Razor Pages für To-Do-Funktionalität und Navigation          |
-| `/Services/`                          | Business-Logik, Dependency Injection                        |
+| `/Pages/`                             | Razor Pages für To-Do-Funktionalität und Navigation         |
+| `/Services/Todos/Interfaces/`         | Business-Logik, Dependency Injection                        |
 | `/Models/DTOs`                        | Datenmodelle, Datenübertragungsobjekte                      |
 | `/Data/`                              | AppDbContext												  |
 | `/Areas/Identity/`                    | ASP.NET Identity (gescaffoldet, teils angepasst)            |
 | `/Tests/`                             | Unit Tests mit xUnit                                        |
 | `_ViewImports.cshtml`, `_ViewStart.cshtml` | Razor Page Konfiguration und Layouts                   |
-| `Program.cs`, `appsettings.json`      | Anwendungskonfiguration  
+| `/ViewComponents/`                    | Responsive Sidebar-Navigation                               |
+| `Program.cs`, `appsettings.json`      | Anwendungskonfiguration                                     |
 
 ---
 
@@ -83,11 +84,18 @@ Die Identity-Seiten wurden teilweise über das Scaffolding-Tool von Visual Studi
 - .NET SDK 8.0 oder neuer
 - IDE wie Visual Studio, Visual Studio Code oder JetBrains Rider
 
-``bash
-git clone https://github.com/dein-benutzername/dein-repo.git
-cd dein-repo
+bash
+git clone https://github.com/DimBoost/todo-app.git
+cd todo-app
 
-## Projekt starten
+## SQLite Datenbank
+Die Anwendung nutzt SQLite als Datenbank. Nach dem Klonen des Repos bitte folgende Schritte ausführen:
+
+dotnet ef database update zum Erstellen und Migrieren der Datenbank
+
+Die Verbindung zur Datenbank wird über appsettings.json konfiguriert (siehe ConnectionStrings:DefaultConnection)
+
+## Anwendung starten
 
 dotnet run
 
@@ -103,3 +111,4 @@ Die Standard-Login-Daten sind:
 Benutzername: admin@todoapp.com
 
 Passwort: Admin1234!
+
