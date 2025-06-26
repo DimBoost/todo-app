@@ -1,5 +1,15 @@
-﻿bin/
+﻿# Database
+*.db
+
+# User Secrets oder vertrauliche Configs
+appsettings.Development.json
+appsettings.Local.json
+
+# Build Output
+bin/
 obj/
+
+# User-specific Files from VS
 .vs/
 *.user
 *.suo
