@@ -2,7 +2,7 @@
 
 # ✅ To-Do-Liste mit ASP.NET Core
 
-Dies ist eine einfache To-Do-Webanwendung mit Benutzer-Authentifizierung und Rollenverwaltung, die mit C#, ASP.NET Core und Razor Pages entwickelt wurde. 
+Dies ist eine Webanwendung mit Benutzer-Authentifizierung und Rollenverwaltung, die mit C#, ASP.NET Core und Razor Pages entwickelt wurde. 
 Das Projekt dient als Lern- und Demonstrationsprojekt im Rahmen meiner Bewerbung als C#/.NET Junior Entwickler.
 Es ist mein erstes umgesetztes Projekt in ASP.NET Core
 
