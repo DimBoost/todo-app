@@ -58,10 +58,9 @@ Es ist mein erstes umgesetztes Projekt in ASP.NET Core
 
 ---
 
-## 🔍 Hinweise zu generiertem Code
+## 🔍 Hinweise 
 
-Das Projekt verwendet ASP.NET Core Identity für die Benutzerverwaltung.  
-Die Identity-Seiten wurden teilweise über das Scaffolding-Tool von Visual Studio generiert (`/Areas/Identity/Pages`) und anschließend von mir angepasst.
+Die Identity-Seiten wurden mithilfe des Scaffolding-Tools von Visual Studio generiert und anschließend von mir angepasst. 
 
 ---
 
@@ -79,27 +78,29 @@ Die Identity-Seiten wurden teilweise über das Scaffolding-Tool von Visual Studi
 
 ## ▶️ Installation und Ausführung
 
-### Voraussetzungen:
+## Voraussetzungen:
 
 - .NET SDK 8.0 oder neuer
 - IDE wie Visual Studio, Visual Studio Code oder JetBrains Rider
 
 ## Projekt klonen
 Klonen Sie das Repository mit dem GitHub-Link in ein lokales Verzeichnis, z.B. todo-app.
-bash
+
+```bash
 git clone https://github.com/DimBoost/todo-app.git
 cd todo-app
+dotnet ef database update
+dotnet run
+```
 
 ## SQLite Datenbank
-Die Anwendung nutzt SQLite als Datenbank. Nach dem Klonen des Repos bitte folgende Schritte ausführen:
+Die Anwendung nutzt SQLite als Datenbank. 
+Führen Sie nach dem Klonen des Repositories den folgenden Befehl aus, 
+um die Datenbank zu erstellen und die Migrationen anzuwenden.
 
-dotnet ef database update, zum Erstellen und Migrieren der Datenbank
+dotnet ef database update
 
-Die Verbindung zur Datenbank wird über appsettings.json konfiguriert (siehe ConnectionStrings:DefaultConnection)
-
-## Anwendung starten
-
-dotnet run
+Die Verbindung zur Datenbank wird über appsettings.json konfiguriert (siehe ConnectionStrings:DefaultConnection).
 
 ## Optional:Tests ausführen
 
