@@ -84,6 +84,8 @@ Die Identity-Seiten wurden teilweise über das Scaffolding-Tool von Visual Studi
 - .NET SDK 8.0 oder neuer
 - IDE wie Visual Studio, Visual Studio Code oder JetBrains Rider
 
+## Projekt klonen
+Klonen Sie das Repository mit dem GitHub-Link in ein lokales Verzeichnis, z.B. todo-app.
 bash
 git clone https://github.com/DimBoost/todo-app.git
 cd todo-app
@@ -91,7 +93,7 @@ cd todo-app
 ## SQLite Datenbank
 Die Anwendung nutzt SQLite als Datenbank. Nach dem Klonen des Repos bitte folgende Schritte ausführen:
 
-dotnet ef database update zum Erstellen und Migrieren der Datenbank
+dotnet ef database update, zum Erstellen und Migrieren der Datenbank
 
 Die Verbindung zur Datenbank wird über appsettings.json konfiguriert (siehe ConnectionStrings:DefaultConnection)
 
