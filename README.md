@@ -103,9 +103,9 @@ dotnet ef database update
 Die Verbindung zur Datenbank wird über appsettings.json konfiguriert (siehe ConnectionStrings:DefaultConnection).
 
 ## Optional:Tests ausführen
-
+```bash
 dotnet test
-
+```
 ## Hinweis
 
 Beim ersten Start wird automatisch ein Admin-Benutzer in der Datenbank angelegt, falls noch keiner existiert.
