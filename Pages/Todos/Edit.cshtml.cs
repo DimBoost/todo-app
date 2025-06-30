@@ -61,7 +61,7 @@ namespace ToDoApp.Pages.Todos
 
                 if (existingTodo == null) return NotFound();
 
-                // Nur relevante Felder aktualisieren
+                // edit only Important fields
                 existingTodo.Title = Todo.Title;
                 existingTodo.Description = Todo.Description;
                 existingTodo.IsCompleted = Todo.IsCompleted;
